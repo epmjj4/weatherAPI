@@ -32,7 +32,12 @@ $(document).ready(function () {
             type: 'GET',
             dataType: "json"
         }).then(function (res) {
+            if(history.indexOf(cityInput)=== -1){
 
+                history.push(cityInput)
+                localStorage.setItem("history", JSON.stringify(history));
+                makeList(cityInput);
+            }
         })
         // request.done(function (response) {
         //     formatSearch(response)
