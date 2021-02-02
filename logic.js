@@ -26,22 +26,40 @@ $(document).ready(function () {
 
 
     function performSearch(cityInput) {
-        var queryURL = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityInput + "&appid=df50ae2fd0ab218ec984115a69f5ef16"
+
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid=df50ae2fd0ab218ec984115a69f5ef16"
         $.ajax({
             url: queryURL,
-            type: 'GET',
+            method: 'GET',
             dataType: "json"
         }).then(function (res) {
-            if(history.indexOf(cityInput)=== -1){
+            // if(history.indexOf(cityInput)=== -1){
 
-                history.push(cityInput)
-                localStorage.setItem("history", JSON.stringify(history));
-                makeList(cityInput);
-            }
+            //     history.push(cityInput)
+            //     window.localStorage.setItem("history", JSON.stringify(history));
+            //     makeList(cityInput);
+            // }
+            //this will empty user info in input field
+            $('#today').empty();
+            //creating html elements in order to show today's weather on html page
+            var card = $('<div>').addClass('card');
+            var cardBody = $('div').addClass('card-body');
+            var title = $('<h4>').addClass('card-title').text(res.name + " (" + new Date().toLocaleDateString() + ")");
+            var temp = $('<p>').addClass('card-text').text("Temperature: " + res.main.temp + "°F");
+            var humid = $('<p>').addClass('card-text').text("Humidity: " + res.main.humidity + "%");
+            var wind = $('<p>').addClass('card-text').text("Wind: " + res.wind.speed + "MPH");
+            //make image variable here. 
+
+           // var image = ""
+          //  title.append(image);
+            cardBody.append(title, temp, humid, wind);
+            card.append(cardBody);
+            $('#today').append(card);
+            console.log(res);
+
+
         })
-        // request.done(function (response) {
-        //     formatSearch(response)
-        // });
+
     }
 
     function formatSearch(jsonObject) {
